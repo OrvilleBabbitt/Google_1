@@ -1,0 +1,110 @@
+<html>
+
+<head>
+  <style>
+    /* 隐藏页面默认边距，设置背景 */
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #f0f0f0;
+    }
+
+    /* 固定中间不消失的祝福样式 */
+    .blessing-fixed {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 35px;
+      border-radius: 15px;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      background-color: #ff6b6b;
+      z-index: 9999;
+    }
+
+    /* 浮动弹窗样式 */
+    .blessing-popup {
+      position: absolute;
+      padding: 15px 25px;
+      border-radius: 10px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      animation: float 10s infinite ease-in-out;
+      opacity: 0.9;
+      z-index: 1;
+    }
+
+    /* 浮动动画 */
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      80% {
+        transform: translate(15px, 15px) rotate(5deg);
+        opacity: 0.9;
+      }
+
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 固定中间不消失的祝福 -->
+  <div class="blessing-fixed">祝袁华涓</div>
+
+  <!-- 第一个浮动祝福弹窗 -->
+  <div class="blessing-popup">今天开心吗~</div>
+
+  <script>
+    // 随机生成弹窗位置、颜色
+    const popups = document.querySelectorAll('.blessing-popup');
+    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#a55eea', '#ff7979', '#3498db', '#2ecc71'];
+    // 100条祝福文案库
+    const texts = [
+      '今天开心吗~', '多喝热水哦！', '天天开心！', '万事顺遂~', '元气满满！', '好运连连！', '生活亮晶晶！', '烦恼全退散！', '笑容常相伴！', '事事都如意！',
+      '今天也要好好吃饭~', '累了就歇一歇吧！', '你超棒的！', '每天都有小幸运~', '平安喜乐呀！', '暴富暴美暴顺利！', '被温柔以待呀！', '别熬夜早点睡~', '心情像阳光一样灿烂！', '解锁今日份快乐！',
+      '所有美好都如期而至！', '做自己超酷的！', '三餐规律身体棒！', '今天也超可爱的！', '好运正在加载中...', '烦恼清零，快乐满格！', '一起奔赴更好的未来！', '记得给自己微笑呀！', '日子慢慢，事事顺心！', '平安健康最重要！',
+      '甜度超标一整天！', '努力就有收获呀！', '保持热爱，奔赴山海！', '今天也要元气满满呀！', '被幸福包围啦！', '少点焦虑，多点开心！', '今天的风都是甜的！', '做个快乐的小笨蛋！', '一切都会好起来的！', '享受当下的美好！',
+      '颜值与实力并存！', '钱包鼓鼓，快乐多多！', '每天都有新惊喜！', '友谊长存，快乐翻倍！', '工作顺利，摸鱼快乐！', '学习进步，逢考必过！', '旅途愉快，一路平安！', '美食治愈一切不开心！', '音乐配奶茶，快乐无极限！', '今天也要好好爱自己！',
+      '雨天有伞，黑夜有灯！', '温暖别人，也被别人温暖！', '做个闪闪发光的人！', '别emo，向前看！', '生活有滋有味，有盼有望！', '好运爆棚，喜事连连！', '笑口常开，福气自来！', '心态超好，万事皆好！', '今天的你也超优秀！', '慢慢来，一切都来得及！',
+      '健康无忧，快乐无忧！', '被全世界温柔以待！', '每天都有小确幸！', '勇敢做自己，超棒的！', '生活明朗，万物可爱！', '未来可期，一起加油！', '烦恼走开，快乐进来！', '今天也要甜甜的！', '身体倍儿棒，吃嘛嘛香！', '好运连连，惊喜不断！',
+      '保持乐观，积极向上！', '今天的努力不会白费！', '做个无忧无虑的小孩！', '颜值在线，快乐无限！', '钱包越来越鼓呀！', '每天都有好心情！', '友谊万岁，快乐加倍！', '工作顺心，薪水翻倍！', '学习顺利，成绩优异！', '出行平安，一路顺风！',
+      '美食多多，体重不涨！', '奶茶续命，快乐加倍！', '好好生活，慢慢相遇！', '雨天不淋雨，晴天不晒黑！', '帮助别人，快乐自己！', '做个有温度的人！', '别纠结，顺其自然！', '生活简单，快乐不简单！', '好运降临，喜事临门！', '笑一笑，十年少！',
+      '心态平和，万事顺遂！', '今天的你闪闪发光！', '脚踏实地，未来可期！', '健康第一，快乐至上！', '被爱包围，幸福满满！', '每天进步一点点！', '做个勇敢的追梦人！', '生活温柔，日子可爱！', '烦恼拜拜，快乐嗨嗨！', '平安喜乐，万事胜意！',
+      '暴富变美，好运连连！', '记得好好照顾自己！', '今天的快乐已签收！', '所有遗憾都随风而去！'
+    ];
+
+    // 初始化第一个浮动弹窗样式
+    popups[0].style.left = `${Math.random() * 90}vw`;
+    popups[0].style.top = `${Math.random() * 90}vh`;
+    popups[0].style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    popups[0].style.animationDuration = `${8 + Math.random() * 4}s`;
+
+    // 500毫秒出现一个浮动弹窗
+    setInterval(() => {
+      const newPopup = document.createElement('div');
+      newPopup.className = 'blessing-popup';
+      newPopup.textContent = texts[Math.floor(Math.random() * texts.length)];
+
+      newPopup.style.left = `${Math.random() * 90}vw`;
+      newPopup.style.top = `${Math.random() * 90}vh`;
+      newPopup.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      newPopup.style.animationDuration = `${8 + Math.random() * 4}s`;
+
+      document.body.appendChild(newPopup);
+    }, 500);
+  </script>
+</body>
+
+</html>
